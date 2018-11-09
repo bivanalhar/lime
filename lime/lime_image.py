@@ -116,7 +116,7 @@ class LimeImageExplainer(object):
 
     def explain_instance_and_get_segments(self, image, classifier_fn, labels=(1,),
                          hide_color=None,
-                         top_labels=5, num_features=100000, num_samples=1000,
+                         top_labels=5, num_features=100000, num_samples=10000,
                          batch_size=10,
                          segmentation_fn=None,
                          distance_metric='cosine',
@@ -207,7 +207,7 @@ class LimeImageExplainer(object):
                 data, labels, distances, label, num_features,
                 model_regressor=model_regressor,
                 feature_selection=self.feature_selection)
-        return ret_exp, segments
+        return ret_exp, segments, data, labels
 
     def data_labels(self,
                     image,

@@ -12,7 +12,7 @@ from skimage.color import gray2rgb
 from . import lime_base
 from .wrappers.scikit_image import SegmentationAlgorithm
 
-print("Lime Image is used")
+# print("Lime Image is used")
 
 class ImageExplanation(object):
     def __init__(self, image, segments):
@@ -166,10 +166,10 @@ class LimeImageExplainer(object):
             # segmentation_fn = SegmentationAlgorithm('quickshift', kernel_size=4,
             #                                         max_dist=200, ratio=0.2,
             #                                         random_seed=random_seed)
-            segmentation_fn = SegmentationAlgorithm('slic', n_segments = 20)
+            segmentation_fn = SegmentationAlgorithm('slic', n_segments = 30)
         try:
             segments = segmentation_fn(image)
-            print("segmentation here")
+            # print("segmentation here")
         except ValueError as e:
             raise e
 
@@ -207,7 +207,7 @@ class LimeImageExplainer(object):
                 data, labels, distances, label, num_features,
                 model_regressor=model_regressor,
                 feature_selection=self.feature_selection)
-        return ret_exp, segments
+        return ret_exp, segments, data, labels
 
     def data_labels(self,
                     image,
