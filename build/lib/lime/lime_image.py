@@ -116,7 +116,7 @@ class LimeImageExplainer(object):
 
     def explain_instance_and_get_segments(self, image, classifier_fn, labels=(1,),
                          hide_color=None,
-                         top_labels=5, num_features=100000, num_samples=1000,
+                         top_labels=5, num_features=100000, num_samples=10000,
                          batch_size=10,
                          segmentation_fn=None,
                          distance_metric='cosine',
@@ -234,10 +234,33 @@ class LimeImageExplainer(object):
                 labels: prediction probabilities matrix
         """
         n_features = np.unique(segments).shape[0]
-        data = self.random_state.randint(0, 2, num_samples * n_features)\
-            .reshape((num_samples, n_features))
+
+        triplets = []
+        for i in range(n_features):
+            for j in range(i+1, n_features):
+                for k in range(j+1, n_features):
+                    triplets.append([i, j, k])
+
+        # print(triplets)
+        data_prelim = [1 for i in range(n_features)]
+        data = []
+        data.append(data_prelim)
+
+        for triplet in triplets:
+            print(triplet)
+            for x in range(n_features):
+                if x in triplet:
+                    data_prelim[x] = 1
+                else:
+                    data_prelim[x] = 0
+            print(data_prelim)
+            data.append(data_prelim)
+        data = np.array(data)
+
+        # data = self.random_state.randint(0, 2, num_samples * n_features)\
+        #     .reshape((num_samples, n_features))
         labels = []
-        data[0, :] = 1
+        # data[0, :] = 1
         imgs = []
         for row in data:
             temp = copy.deepcopy(image)
