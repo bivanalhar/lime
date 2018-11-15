@@ -257,8 +257,8 @@ class LimeImageExplainer(object):
         #     data.append(data_prelim)
         # data = np.array(data)
 
-        data = self.random_state.randint(0, 2, num_samples * n_features)\
-            .reshape((num_samples, n_features))
+        data = self.random_state.randint(0, 2, (2**n_features) * n_features)\
+            .reshape((2**n_features, n_features))
         labels = []
         data[0, :] = 1
         imgs = []
