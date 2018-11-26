@@ -258,13 +258,13 @@ class LimeImageExplainer(object):
         #     data.append(data_prelim)
         # data = np.array(data)
 
-        data = ["".join(seq) for seq in itertools.product("10", repeat = n_features)]
-        data = np.array([np.array(list(data[i]), dtype = int) for i in range(len(data))]) 
-        print(np.shape(data))
-        # data = self.random_state.randint(0, 2, (2**n_features) * n_features)\
-        #     .reshape((2**n_features, n_features))
+        # data = ["".join(seq) for seq in itertools.product("10", repeat = n_features)]
+        # data = np.array([np.array(list(data[i]), dtype = int) for i in range(len(data))]) 
+        # print(np.shape(data))
+        data = self.random_state.randint(0, 2, num_samples * n_features)\
+            .reshape((num_samples, n_features))
         labels = []
-        # data[0, :] = 1
+        data[0, :] = 1
         imgs = []
         for row in data:
             temp = copy.deepcopy(image)

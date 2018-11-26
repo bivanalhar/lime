@@ -11,6 +11,7 @@ from skimage.color import gray2rgb
 
 from . import lime_base
 from .wrappers.scikit_image import SegmentationAlgorithm
+import itertools
 
 # print("Lime Image is used")
 
@@ -257,10 +258,13 @@ class LimeImageExplainer(object):
         #     data.append(data_prelim)
         # data = np.array(data)
 
-        data = self.random_state.randint(0, 2, (2**n_features) * n_features)\
-            .reshape((2**n_features, n_features))
+        data = ["".join(seq) for seq in itertools.product("10", repeat = n_features)]
+        data = np.array([np.array(list(data[i]), dtype = int) for i in range(len(data))]) 
+        print(np.shape(data))
+        # data = self.random_state.randint(0, 2, (2**n_features) * n_features)\
+        #     .reshape((2**n_features, n_features))
         labels = []
-        data[0, :] = 1
+        # data[0, :] = 1
         imgs = []
         for row in data:
             temp = copy.deepcopy(image)
